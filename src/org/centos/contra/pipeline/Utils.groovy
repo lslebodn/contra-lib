@@ -387,6 +387,25 @@ def trackMessage(String messageID, int retryCount, def dataGrepperWebAddr=null) 
 }
 
 /**
+ * Allow to check custom service for presence of a message
+ *
+ * It is possible to use method pointer operator (.&) from groovy
+ * if you do not want to create new closure.
+ * http://docs.groovy-lang.org/latest/html/documentation/core-operators.html#method-pointer-operator
+ *
+ * @param trackClosure closure for checking successful delivery of message.
+                       You need to throw exception (or to call error())
+                       in case of failure.
+ * @param retryCount number of times to keep trying.
+ * @return
+ */
+def trackMessageWithClosure(Closure trackClosure, int retryCount) {
+    retry(retryCount) {
+        trackClosure()
+    }
+}
+
+/**
  *
  * @param a list of Maps to merge
  * @return

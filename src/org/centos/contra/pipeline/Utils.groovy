@@ -1,4 +1,5 @@
 package org.centos.contra.pipeline
+import com.redhat.jenkins.plugins.ci.messaging.data.SendResult
 
 /**
  * @param request - the url that refers to the package
@@ -395,13 +396,14 @@ def trackMessage(String messageID, int retryCount, def dataGrepperWebAddr=null) 
  *
  * @param trackClosure closure for checking successful delivery of message.
                        You need to throw exception (or to call error())
-                       in case of failure.
+                       in case of failure. Closure need to accept one parameter com.redhat.jenkins.plugins.ci.messaging.data.SendResult
+                       which is returned from the step sendCIMessage.
  * @param retryCount number of times to keep trying.
  * @return
  */
-def trackMessageWithClosure(Closure trackClosure, int retryCount) {
+def trackMessageWithClosure(Closure trackClosure, int retryCount, SendResult sendResult) {
     retry(retryCount) {
-        trackClosure()
+        trackClosure(sendResult)
     }
 }
 

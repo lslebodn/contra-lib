@@ -49,7 +49,7 @@ def call(Map parameters = [:]) {
     archiveArtifacts allowEmptyArchive: false, artifacts: msgAuditFile
 
     if (trackClosure) {
-        utils.trackMessageWithClosure(trackClosure, msgRetryCount)
+        utils.trackMessageWithClosure(trackClosure, msgRetryCount, sendResult)
     } else {
         utils.trackMessage(id, msgRetryCount)
     }

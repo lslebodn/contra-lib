@@ -43,6 +43,8 @@ def call(Map parameters = [:]) {
     if (statusCode == "404") {
         error "ERROR: No page found for ${queryUrl}"
     } else if (statusCode.startsWith("5")) {
+        echo "$statusCode"
+        sh "cat ${resultsFileName}"
         error "ERROR: internal datagrepper server error... (URL: ${queryUrl})"
     } else if (statusCode.startsWith("0")) {
         error "ERROR: Error querying datagrepper on url (URL: ${queryUrl})"
